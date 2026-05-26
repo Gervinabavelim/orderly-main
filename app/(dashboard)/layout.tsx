@@ -1,9 +1,10 @@
 import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, isMissingSupabaseEnv } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/layout/sidebar'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  if (isMissingSupabaseEnv()) redirect('/login')
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

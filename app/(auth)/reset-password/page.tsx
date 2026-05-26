@@ -34,7 +34,6 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   const strength = useMemo(() => password ? getPasswordStrength(password) : null, [password])
 
@@ -60,7 +59,7 @@ export default function ResetPasswordPage() {
 
     setLoading(true)
 
-    const { error } = await supabase.auth.updateUser({ password })
+    const { error } = await createClient().auth.updateUser({ password })
 
     if (error) {
       if (error.message.includes('session') || error.message.includes('token')) {
